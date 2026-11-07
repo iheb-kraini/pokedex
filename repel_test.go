@@ -9,13 +9,21 @@ func TestCleanInput(t *testing.T) {
 		input:    "  hello  world  ",
 		expected: []string{"hello", "world"},
 	},
-	
 	{
 		input:    "Charmander Bulbasaur PIKACHU",
 		expected: []string{"charmander", "bulbasaur", "pikachu"},
 	},
-	
-	
+
+	{
+		input:    "a  b",
+		expected: []string{"a", "b"},
+	},
+
+	{
+		input:    "   ",
+		expected: []string{},
+	},
+
 }
 
 

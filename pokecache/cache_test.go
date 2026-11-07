@@ -2,6 +2,8 @@ package cache
 
 import (
 	"bytes"
+	"fmt"
+	"sync"
 	"testing"
 	"time"
 )
@@ -101,5 +103,55 @@ func TestCacheExpiration(t *testing.T) {
 	// 3. Check that the entry has been removed
 	if _, exists := cache.Get(key); exists {
 		t.Errorf("expected entry to have expired and been removed from cache")
+	}
+}
+
+// TestAddReturnsPreviousValue pins down Add's replace semantics: it returns the
+// previous value (nil on first insert) and whether the key already existed.
+func TestAddReturnsPreviousValue(t *testing.T) {
+	cache := NewCache(5 * time.Minute)
+	key := "pikachu"
+
+	prev, existed := cache.Add(key, []byte("old"))
+	if existed {
+		t.Errorf("expected key %q to not exist on first Add", key)
+	}
+	if prev != nil {
+		t.Errorf("expected nil previous value on first Add, got %q", prev)
+	}
+
+	prev, existed = cache.Add(key, []byte("new"))
+	if !existed {
+		t.Errorf("expected key %q to exist on second Add", key)
+	}
+	if !bytes.Equal(prev, []byte("old")) {
+		t.Errorf("expected previous value %q, got %q", []byte("old"), prev)
+	}
+}
+
+// TestConcurrentAccess exercises parallel Add/Get calls so `go test -race`
+// can detect data-race regressions in the mutex guards.
+func TestConcurrentAccess(t *testing.T) {
+	cache := NewCache(5 * time.Minute)
+
+	var wg sync.WaitGroup
+	for i := 0; i < 16; i++ {
+		key := fmt.Sprintf("key-%d", i)
+		wg.Add(2)
+		go func() {
+			defer wg.Done()
+			cache.Add(key, []byte(key))
+		}()
+		go func() {
+			defer wg.Done()
+			cache.Get(key)
+		}()
+	}
+	wg.Wait()
+
+	for i := 0; i < 16; i++ {
+		if _, exists := cache.Get(fmt.Sprintf("key-%d", i)); !exists {
+			t.Errorf("expected key-%d to exist after concurrent writes", i)
+		}
 	}
 }

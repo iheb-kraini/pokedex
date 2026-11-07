@@ -30,11 +30,17 @@ func main() {
 				description: "bmap",
 				callback:    command_bmap,
 			},
+			"explore": {
+				name:        "explore",
+				description: "explore the possibel pokemen to encouter in an area",
+				callback:    commandExplore,
+			},
 		},
 
 		next:  "https://pokeapi.co/api/v2/location-area?offset=0&limit=20",
 		prev:  "",
 		cache: cache.NewCache(5 * time.Minute),
+		args:  []string{},
 	}
 
 	startRepl(conf)

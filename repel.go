@@ -14,6 +14,7 @@ type config struct {
 	prev     string
 	next     string
 	cache    cache.Cache
+	args     []string
 }
 type cliCommand struct {
 	name        string
@@ -38,6 +39,8 @@ func startRepl(c *config) {
 		fmt.Print("Pokedex > ")
 		if scanner.Scan() { // Reads up to a newline character
 			input := cleanInput(scanner.Text()) // Converts the input bytes into a string
+			args := append([]string(nil), input[1:]...)
+			c.args = args
 			val, ok := c_map[input[0]]
 			if ok {
 				val.callback(c)
