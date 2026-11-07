@@ -6,7 +6,8 @@ func command_help(c *config) error {
 Usage:
 
 help: Displays a help message
-exit: Exit the Pokedex`
+exit: Exit the Pokedex
+catch: Try to catch a Pokemon and add it to your Pokedex`
 	fmt.Println(message);
 	return nil;
 }

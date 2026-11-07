@@ -35,12 +35,18 @@ func main() {
 				description: "explore the possibel pokemen to encouter in an area",
 				callback:    commandExplore,
 			},
+			"catch": {
+				name:        "catch",
+				description: "try to catch a Pokemon",
+				callback:    commandCatch,
+			},
 		},
 
-		next:  "https://pokeapi.co/api/v2/location-area?offset=0&limit=20",
-		prev:  "",
-		cache: cache.NewCache(5 * time.Minute),
-		args:  []string{},
+		next:    "https://pokeapi.co/api/v2/location-area?offset=0&limit=20",
+		prev:    "",
+		cache:   cache.NewCache(5 * time.Minute),
+		args:    []string{},
+		pokedex: map[string]Pokemon{},
 	}
 
 	startRepl(conf)

@@ -44,5 +44,6 @@ func newTestConfig() *config {
 		prev:     "",
 		cache:    cache.NewCache(5 * time.Minute),
 		args:     []string{},
+		pokedex:  map[string]Pokemon{},
 	}
 }

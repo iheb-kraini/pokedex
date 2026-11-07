@@ -15,6 +15,7 @@ type config struct {
 	next     string
 	cache    cache.Cache
 	args     []string
+	pokedex  map[string]Pokemon
 }
 type cliCommand struct {
 	name        string
