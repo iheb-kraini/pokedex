@@ -1,4 +1,41 @@
 package main
-int main(){
-return 0;
+
+import (
+	"time"
+
+	cache "github.com/iheb-kraini/pokedex/pokecache"
+)
+
+func main() {
+	conf := &config{
+		commands: map[string]cliCommand{
+			"exit": {
+				name:        "exit",
+				description: "Exit the Pokedex",
+				callback:    commandExit,
+			},
+			"help": {
+				name:        "help",
+				description: "Exit the Pokedex",
+				callback:    command_help,
+			},
+
+			"map": {
+				name:        "map",
+				description: "map",
+				callback:    command_map,
+			},
+			"mapb": {
+				name:        "bmap",
+				description: "bmap",
+				callback:    command_bmap,
+			},
+		},
+
+		next:  "https://pokeapi.co/api/v2/location-area?offset=0&limit=20",
+		prev:  "",
+		cache: cache.NewCache(5 * time.Minute),
+	}
+
+	startRepl(conf)
 }
