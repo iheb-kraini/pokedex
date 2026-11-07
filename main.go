@@ -40,6 +40,11 @@ func main() {
 				description: "try to catch a Pokemon",
 				callback:    commandCatch,
 			},
+			"inspect": {
+				name:        "inspect",
+				description: "details about a caught Pokemon",
+				callback:    commandInspect,
+			},
 		},
 
 		next:    "https://pokeapi.co/api/v2/location-area?offset=0&limit=20",
