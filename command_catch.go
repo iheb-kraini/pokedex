@@ -71,6 +71,7 @@ func commandCatch(c *config) error {
 	if rollCatch(maxBaseExp) >= p.BaseExperience {
 		c.pokedex[name] = p
 		fmt.Printf("%s was caught!\n", name)
+		fmt.Println("You may now inspect it with the inspect command.")
 	} else {
 		fmt.Printf("%s escaped!\n", name)
 	}

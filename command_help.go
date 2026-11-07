@@ -8,7 +8,8 @@ Usage:
 help: Displays a help message
 exit: Exit the Pokedex
 catch: Try to catch a Pokemon and add it to your Pokedex
-inspect: Details about a caught Pokemon`
+inspect: Details about a caught Pokemon
+pokedex: List all the Pokemon in your Pokedex`
 	fmt.Println(message);
 	return nil;
 }

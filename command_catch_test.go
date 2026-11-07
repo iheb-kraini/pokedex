@@ -26,7 +26,7 @@ func TestCatchCatchesPokemon(t *testing.T) {
 	if err != nil {
 		t.Fatalf("commandCatch: %v", err)
 	}
-	want := "Throwing a Pokeball at pikachu...\npikachu was caught!\n"
+	want := "Throwing a Pokeball at pikachu...\npikachu was caught!\nYou may now inspect it with the inspect command.\n"
 	if out != want {
 		t.Errorf("expected %q, got %q", want, out)
 	}
